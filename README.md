@@ -18,7 +18,7 @@ An AWS account with access to the requied services. Keys to the account are to b
 
 ### License
 
-To Be Determined
+To Be Determined.
 
 
 
