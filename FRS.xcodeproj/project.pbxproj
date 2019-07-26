@@ -8,6 +8,7 @@
 
 /* Begin PBXBuildFile section */
 		13807A7AA07BE537141AF1B3 /* Pods_FRS.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 256C12FE861EEB4E6A9739CF /* Pods_FRS.framework */; };
+		CC32479022EBB0B5006EC742 /* bezos.jpg in Resources */ = {isa = PBXBuildFile; fileRef = CC32478F22EBB0B5006EC742 /* bezos.jpg */; };
 		CC47A42522DB905300023DDA /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = CC47A42422DB905300023DDA /* AppDelegate.swift */; };
 		CC47A42A22DB905300023DDA /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = CC47A42822DB905300023DDA /* Main.storyboard */; };
 		CC47A42C22DB905400023DDA /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = CC47A42B22DB905400023DDA /* Assets.xcassets */; };
@@ -23,6 +24,7 @@
 		02E3B57A783B3FCC905CEBBF /* Pods-FRS.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-FRS.debug.xcconfig"; path = "Target Support Files/Pods-FRS/Pods-FRS.debug.xcconfig"; sourceTree = "<group>"; };
 		256C12FE861EEB4E6A9739CF /* Pods_FRS.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_FRS.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		B1AFD8AD64F1F33867AFDCBD /* Pods-FRS.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-FRS.release.xcconfig"; path = "Target Support Files/Pods-FRS/Pods-FRS.release.xcconfig"; sourceTree = "<group>"; };
+		CC32478F22EBB0B5006EC742 /* bezos.jpg */ = {isa = PBXFileReference; lastKnownFileType = image.jpeg; path = bezos.jpg; sourceTree = "<group>"; };
 		CC47A42122DB905300023DDA /* FRS.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = FRS.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		CC47A42422DB905300023DDA /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		CC47A42922DB905300023DDA /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/Main.storyboard; sourceTree = "<group>"; };
@@ -77,6 +79,7 @@
 		CC47A42322DB905300023DDA /* FRS */ = {
 			isa = PBXGroup;
 			children = (
+				CC32478F22EBB0B5006EC742 /* bezos.jpg */,
 				CC47A43622DB930C00023DDA /* LoginViewController.swift */,
 				CC47A42422DB905300023DDA /* AppDelegate.swift */,
 				CC47A42822DB905300023DDA /* Main.storyboard */,
@@ -163,6 +166,7 @@
 				CC47A42F22DB905400023DDA /* LaunchScreen.storyboard in Resources */,
 				CC47A42C22DB905400023DDA /* Assets.xcassets in Resources */,
 				CC47A42A22DB905300023DDA /* Main.storyboard in Resources */,
+				CC32479022EBB0B5006EC742 /* bezos.jpg in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
