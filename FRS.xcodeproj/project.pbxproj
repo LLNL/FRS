@@ -8,34 +8,34 @@
 
 /* Begin PBXBuildFile section */
 		13807A7AA07BE537141AF1B3 /* Pods_FRS.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 256C12FE861EEB4E6A9739CF /* Pods_FRS.framework */; };
-		CC32479022EBB0B5006EC742 /* bezos.jpg in Resources */ = {isa = PBXBuildFile; fileRef = CC32478F22EBB0B5006EC742 /* bezos.jpg */; };
 		CC47A42522DB905300023DDA /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = CC47A42422DB905300023DDA /* AppDelegate.swift */; };
 		CC47A42A22DB905300023DDA /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = CC47A42822DB905300023DDA /* Main.storyboard */; };
 		CC47A42C22DB905400023DDA /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = CC47A42B22DB905400023DDA /* Assets.xcassets */; };
 		CC47A42F22DB905400023DDA /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = CC47A42D22DB905400023DDA /* LaunchScreen.storyboard */; };
-		CC47A43722DB930C00023DDA /* LoginViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = CC47A43622DB930C00023DDA /* LoginViewController.swift */; };
 		CC47A43922DB939E00023DDA /* MainViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = CC47A43822DB939E00023DDA /* MainViewController.swift */; };
 		CC47A43B22DB93FA00023DDA /* ResultViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = CC47A43A22DB93FA00023DDA /* ResultViewController.swift */; };
 		CC47A43D22DB940C00023DDA /* SettingsViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = CC47A43C22DB940C00023DDA /* SettingsViewController.swift */; };
 		CC6AFA6922DBA7AC0044F687 /* Face.swift in Sources */ = {isa = PBXBuildFile; fileRef = CC6AFA6822DBA7AC0044F687 /* Face.swift */; };
+		CCB70A1E22FFA27A004E83B2 /* bezos.png in Resources */ = {isa = PBXBuildFile; fileRef = CCB70A1D22FFA27A004E83B2 /* bezos.png */; };
+		CCB70A2022FFA608004E83B2 /* secrets.txt in Sources */ = {isa = PBXBuildFile; fileRef = CCB70A1F22FFA608004E83B2 /* secrets.txt */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
 		02E3B57A783B3FCC905CEBBF /* Pods-FRS.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-FRS.debug.xcconfig"; path = "Target Support Files/Pods-FRS/Pods-FRS.debug.xcconfig"; sourceTree = "<group>"; };
 		256C12FE861EEB4E6A9739CF /* Pods_FRS.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_FRS.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		B1AFD8AD64F1F33867AFDCBD /* Pods-FRS.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-FRS.release.xcconfig"; path = "Target Support Files/Pods-FRS/Pods-FRS.release.xcconfig"; sourceTree = "<group>"; };
-		CC32478F22EBB0B5006EC742 /* bezos.jpg */ = {isa = PBXFileReference; lastKnownFileType = image.jpeg; path = bezos.jpg; sourceTree = "<group>"; };
 		CC47A42122DB905300023DDA /* FRS.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = FRS.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		CC47A42422DB905300023DDA /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		CC47A42922DB905300023DDA /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/Main.storyboard; sourceTree = "<group>"; };
 		CC47A42B22DB905400023DDA /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		CC47A42E22DB905400023DDA /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/LaunchScreen.storyboard; sourceTree = "<group>"; };
 		CC47A43022DB905400023DDA /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
-		CC47A43622DB930C00023DDA /* LoginViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LoginViewController.swift; sourceTree = "<group>"; };
 		CC47A43822DB939E00023DDA /* MainViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MainViewController.swift; sourceTree = "<group>"; };
 		CC47A43A22DB93FA00023DDA /* ResultViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ResultViewController.swift; sourceTree = "<group>"; };
 		CC47A43C22DB940C00023DDA /* SettingsViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SettingsViewController.swift; sourceTree = "<group>"; };
 		CC6AFA6822DBA7AC0044F687 /* Face.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Face.swift; sourceTree = "<group>"; };
+		CCB70A1D22FFA27A004E83B2 /* bezos.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = bezos.png; path = ../../../Documents/bezos.png; sourceTree = "<group>"; };
+		CCB70A1F22FFA608004E83B2 /* secrets.txt */ = {isa = PBXFileReference; lastKnownFileType = text; path = secrets.txt; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -79,17 +79,17 @@
 		CC47A42322DB905300023DDA /* FRS */ = {
 			isa = PBXGroup;
 			children = (
-				CC32478F22EBB0B5006EC742 /* bezos.jpg */,
-				CC47A43622DB930C00023DDA /* LoginViewController.swift */,
 				CC47A42422DB905300023DDA /* AppDelegate.swift */,
 				CC47A42822DB905300023DDA /* Main.storyboard */,
 				CC47A42B22DB905400023DDA /* Assets.xcassets */,
+				CCB70A1D22FFA27A004E83B2 /* bezos.png */,
 				CC47A42D22DB905400023DDA /* LaunchScreen.storyboard */,
 				CC47A43022DB905400023DDA /* Info.plist */,
 				CC47A43822DB939E00023DDA /* MainViewController.swift */,
 				CC47A43A22DB93FA00023DDA /* ResultViewController.swift */,
 				CC47A43C22DB940C00023DDA /* SettingsViewController.swift */,
 				CC6AFA6822DBA7AC0044F687 /* Face.swift */,
+				CCB70A1F22FFA608004E83B2 /* secrets.txt */,
 			);
 			path = FRS;
 			sourceTree = "<group>";
@@ -137,6 +137,7 @@
 				TargetAttributes = {
 					CC47A42022DB905300023DDA = {
 						CreatedOnToolsVersion = 10.2.1;
+						LastSwiftMigration = 1030;
 					};
 				};
 			};
@@ -166,7 +167,7 @@
 				CC47A42F22DB905400023DDA /* LaunchScreen.storyboard in Resources */,
 				CC47A42C22DB905400023DDA /* Assets.xcassets in Resources */,
 				CC47A42A22DB905300023DDA /* Main.storyboard in Resources */,
-				CC32479022EBB0B5006EC742 /* bezos.jpg in Resources */,
+				CCB70A1E22FFA27A004E83B2 /* bezos.png in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -237,7 +238,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				CC47A43922DB939E00023DDA /* MainViewController.swift in Sources */,
-				CC47A43722DB930C00023DDA /* LoginViewController.swift in Sources */,
+				CCB70A2022FFA608004E83B2 /* secrets.txt in Sources */,
 				CC47A42522DB905300023DDA /* AppDelegate.swift in Sources */,
 				CC47A43D22DB940C00023DDA /* SettingsViewController.swift in Sources */,
 				CC6AFA6922DBA7AC0044F687 /* Face.swift in Sources */,
@@ -388,18 +389,19 @@
 			baseConfigurationReference = 02E3B57A783B3FCC905CEBBF /* Pods-FRS.debug.xcconfig */;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				CLANG_ENABLE_MODULES = YES;
 				CODE_SIGN_STYLE = Automatic;
 				DEVELOPMENT_TEAM = 29KT6QZ29T;
 				INFOPLIST_FILE = FRS/Info.plist;
-				IPHONEOS_DEPLOYMENT_TARGET = 12.1;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/Frameworks",
 				);
 				PRODUCT_BUNDLE_IDENTIFIER = llnl.FRS;
 				PRODUCT_NAME = "$(TARGET_NAME)";
-				SWIFT_VERSION = 4.2;
-				TARGETED_DEVICE_FAMILY = "1,2";
+				SWIFT_OPTIMIZATION_LEVEL = "-Onone";
+				SWIFT_VERSION = 4.0;
+				TARGETED_DEVICE_FAMILY = 1;
 			};
 			name = Debug;
 		};
@@ -408,18 +410,18 @@
 			baseConfigurationReference = B1AFD8AD64F1F33867AFDCBD /* Pods-FRS.release.xcconfig */;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				CLANG_ENABLE_MODULES = YES;
 				CODE_SIGN_STYLE = Automatic;
 				DEVELOPMENT_TEAM = 29KT6QZ29T;
 				INFOPLIST_FILE = FRS/Info.plist;
-				IPHONEOS_DEPLOYMENT_TARGET = 12.1;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/Frameworks",
 				);
 				PRODUCT_BUNDLE_IDENTIFIER = llnl.FRS;
 				PRODUCT_NAME = "$(TARGET_NAME)";
-				SWIFT_VERSION = 4.2;
-				TARGETED_DEVICE_FAMILY = "1,2";
+				SWIFT_VERSION = 4.0;
+				TARGETED_DEVICE_FAMILY = 1;
 			};
 			name = Release;
 		};
