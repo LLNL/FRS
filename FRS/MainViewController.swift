@@ -15,11 +15,10 @@ class MainViewController: UIViewController, UIImagePickerControllerDelegate, UIN
     @IBOutlet weak var previewView: UIView!
     @IBOutlet weak var btnRecognize: UIButton!
     
-    var infoLinksMap: [Int:String] = [1000:""]
     var captureSession: AVCaptureSession!
-    var stillImageOutput: AVCapturePhotoOutput!
+    var capturedImage: AVCapturePhotoOutput!
+    var image: UIImage!
     var videoPreviewLayer: AVCaptureVideoPreviewLayer!
-    let activityIndicator = UIActivityIndicatorView(activityIndicatorStyle: UIActivityIndicatorViewStyle.whiteLarge)
 
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -45,8 +44,34 @@ class MainViewController: UIViewController, UIImagePickerControllerDelegate, UIN
         super.didReceiveMemoryWarning()
     }
     
+    override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
+        let vc = segue.destination as! ResultViewController
+        vc.image = image
+    }
+    
     @IBAction func onRecognizeClicked(_ sender: Any) {
+        let settings = AVCapturePhotoSettings(format: [AVVideoCodecKey: AVVideoCodecType.jpeg])
+        capturedImage.capturePhoto(with: settings, delegate: self)
+    }
+    
+    func photoOutput(_ output: AVCapturePhotoOutput, didFinishProcessingPhoto photo: AVCapturePhoto, error: Error?) {
+        guard let imageData = photo.fileDataRepresentation()
+            else { return }
         
+        var orientation = UIImageOrientation.up
+        if UIDevice.current.orientation == UIDeviceOrientation.landscapeLeft || (UIDevice.current.orientation == UIDeviceOrientation.faceUp && UIDevice.current.orientation.isLandscape){
+            orientation = UIImageOrientation.up
+        } else if UIDevice.current.orientation == UIDeviceOrientation.landscapeRight {
+            orientation = UIImageOrientation.down
+        } else if UIDevice.current.orientation == UIDeviceOrientation.portrait || (UIDevice.current.orientation == UIDeviceOrientation.faceUp && UIDevice.current.orientation.isPortrait){
+            orientation = UIImageOrientation.right
+        } else if UIDevice.current.orientation == UIDeviceOrientation.portraitUpsideDown{
+            orientation = UIImageOrientation.left
+        }
+        let uiimage = UIImage(data: imageData)
+        let cgimage = CIImage(image: uiimage!)
+        image = UIImage(cgImage: (cgimage?.cgImage)!, scale: 1.0, orientation: orientation)
+        performSegue(withIdentifier: "segueDetails", sender: self)
     }
     
     //Setup camera session
@@ -67,11 +92,11 @@ class MainViewController: UIViewController, UIImagePickerControllerDelegate, UIN
             }
             let input = try AVCaptureDeviceInput(device: backCamera)
 
-            stillImageOutput = AVCapturePhotoOutput()
+            capturedImage = AVCapturePhotoOutput()
             
-            if captureSession.canAddInput(input) && captureSession.canAddOutput(stillImageOutput) {
+            if captureSession.canAddInput(input) && captureSession.canAddOutput(capturedImage) {
                 captureSession.addInput(input)
-                captureSession.addOutput(stillImageOutput)
+                captureSession.addOutput(capturedImage)
                 setupLivePreview()
             }
         }

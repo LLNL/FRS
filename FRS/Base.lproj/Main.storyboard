@@ -46,7 +46,6 @@
                                         <state key="normal" title="RECOGNIZE"/>
                                         <connections>
                                             <action selector="onRecognizeClicked:" destination="BYZ-38-t0r" eventType="touchUpInside" id="m8l-eh-0JW"/>
-                                            <segue destination="wO8-Sk-LaC" kind="show" id="Eby-Nq-Xks"/>
                                         </connections>
                                     </button>
                                 </subviews>
@@ -79,6 +78,7 @@
                     <connections>
                         <outlet property="btnRecognize" destination="hfV-tB-r0a" id="JmP-WD-O7w"/>
                         <outlet property="previewView" destination="PG4-0j-MbS" id="lPF-7n-gUr"/>
+                        <segue destination="wO8-Sk-LaC" kind="show" identifier="segueDetails" id="VH5-L8-e1T"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="dkx-z0-nzr" sceneMemberID="firstResponder"/>
@@ -187,6 +187,9 @@
                         </constraints>
                         <viewLayoutGuide key="safeArea" id="AVs-aO-5eK"/>
                     </view>
+                    <connections>
+                        <outlet property="capturedImage" destination="wHd-IM-3v8" id="vxe-Yi-VJ3"/>
+                    </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="SlT-QP-DVA" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
