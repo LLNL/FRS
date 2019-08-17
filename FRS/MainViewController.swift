@@ -51,7 +51,12 @@ class MainViewController: UIViewController, UIImagePickerControllerDelegate, UIN
     
     @IBAction func onRecognizeClicked(_ sender: Any) {
         let settings = AVCapturePhotoSettings(format: [AVVideoCodecKey: AVVideoCodecType.jpeg])
-        capturedImage.capturePhoto(with: settings, delegate: self)
+        if (capturedImage != nil) {
+            capturedImage.capturePhoto(with: settings, delegate: self)
+        } else {
+            // For simulator (no camera access) sent nil image
+            performSegue(withIdentifier: "segueDetails", sender: self)
+        }
     }
     
     func photoOutput(_ output: AVCapturePhotoOutput, didFinishProcessingPhoto photo: AVCapturePhoto, error: Error?) {
