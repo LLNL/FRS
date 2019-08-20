@@ -1,13 +1,14 @@
 //
-//  TableCell.swift
+//  CelebrityTableCell.swift
 //  FRS
 //
-//  Created by Lee, John on 8/11/19.
+//  Created by Lee, John on 8/18/19.
 //  Copyright © 2019 Lee, John. All rights reserved.
 //
+
 import UIKit
 
-class TableCell: UITableViewCell {
+class CelebrityTableCell: UITableViewCell {
     @IBOutlet weak var croppedImage: UIImageView!
     @IBOutlet weak var lblName: UILabel!
     @IBOutlet weak var lblSimularity: UILabel!

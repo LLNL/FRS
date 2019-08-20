@@ -1,5 +1,5 @@
 //
-//  ResultViewController.swift
+//  EmployeeViewController.swift
 //  FRS
 //
 //  Created by Lee, John on 7/14/19.
@@ -11,7 +11,7 @@ import SafariServices
 import AWSRekognition
 import AWSDynamoDB
 
-class ResultViewController: UIViewController, UINavigationControllerDelegate, SFSafariViewControllerDelegate,  UITableViewDataSource, UITableViewDelegate {
+class EmployeeViewController: UIViewController, UINavigationControllerDelegate, SFSafariViewControllerDelegate,  UITableViewDataSource, UITableViewDelegate {
     
     @IBOutlet weak var tableView: UITableView!
     @IBOutlet weak var capturedImage: UIImageView!
@@ -21,14 +21,13 @@ class ResultViewController: UIViewController, UINavigationControllerDelegate, SF
     var faces: [Face] = []
     
     // Rekognition configuration
+    var rekognitionObject: AWSRekognition?
     var rekogCollectionId = "faces"     // Rekogntion Collection Id
     var rekogThreshold = 60              // Threshold for simularity match 0 - 100
     var rekogMatches = 10               // Total matches to return by Rekognition
     
-    var dispatchGroup = DispatchGroup()
     let activityIndicator = UIActivityIndicatorView(activityIndicatorStyle: UIActivityIndicatorView.Style.whiteLarge)
     
-    var rekognitionObject: AWSRekognition?
     var dynamoDB: AWSDynamoDB?
     
     override func viewDidLoad() {
@@ -36,16 +35,16 @@ class ResultViewController: UIViewController, UINavigationControllerDelegate, SF
         
         if image == nil {
             print ("ERROR! No image was received. Loading default image!")
-            self.image = #imageLiteral(resourceName: "bezos")
+            image = #imageLiteral(resourceName: "bezos")
             //faces = mockFaces() // Debug only
         }
         
-        self.capturedImage.image = image
+        capturedImage.image = image
         let faceImage:Data = UIImagePNGRepresentation(image)!
         
-        self.tableView.delegate = self
-        self.tableView.dataSource = self
-        self.tableView.register(UITableViewCell.self, forCellReuseIdentifier: "cell")
+        tableView.delegate = self
+        tableView.dataSource = self
+        tableView.register(UITableViewCell.self, forCellReuseIdentifier: "cell")
         
         activityIndicator.color = .darkGray
         activityIndicator.center = CGPoint(x: tableView.bounds.size.width/2, y: tableView.bounds.size.height/3)
@@ -64,7 +63,7 @@ class ResultViewController: UIViewController, UINavigationControllerDelegate, SF
     }
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
-        let cell = tableView.dequeueReusableCell(withIdentifier: "TableCell") as! TableCell
+        let cell = tableView.dequeueReusableCell(withIdentifier: "EmployeeTableCell") as! EmployeeTableCell
         let face = faces[indexPath.row]
         cell.setCell(face: face)
         if(face.simularity < 70.0) {
@@ -81,14 +80,15 @@ class ResultViewController: UIViewController, UINavigationControllerDelegate, SF
     
     // Rekognition to process this image
     func sendImageToRekognition(originalImage: UIImage, faceImageData: Data, handleRotation: Bool, lastorientation: UIDeviceOrientation) {
-        self.rekognitionObject = AWSRekognition.default()
+        
+        rekognitionObject = AWSRekognition.default()
         let faceImageAWS = AWSRekognitionImage()
         faceImageAWS?.bytes = faceImageData
         let image = UIImage(data: faceImageData as Data)
         let detectfacesrequest = AWSRekognitionDetectFacesRequest()
         detectfacesrequest?.image = faceImageAWS
         
-        self.rekognitionObject?.detectFaces(detectfacesrequest!) {
+        rekognitionObject?.detectFaces(detectfacesrequest!) {
             (result, error) in
             if error != nil {
                 print(error!)
@@ -131,10 +131,11 @@ class ResultViewController: UIViewController, UINavigationControllerDelegate, SF
         rekognitionObject = AWSRekognition.default()
         let faceImageAWS = AWSRekognitionImage()
         faceImageAWS?.bytes = faceImageData
+        
         let imagerequest = AWSRekognitionSearchFacesByImageRequest()
-        imagerequest?.collectionId = self.rekogCollectionId
-        imagerequest?.faceMatchThreshold = self.rekogThreshold as NSNumber
-        imagerequest?.maxFaces = self.rekogMatches as NSNumber
+        imagerequest?.collectionId = rekogCollectionId
+        imagerequest?.faceMatchThreshold = rekogThreshold as NSNumber
+        imagerequest?.maxFaces = rekogMatches as NSNumber
         imagerequest?.image = faceImageAWS
         
         let faceInImage = Face(name: "Unknown", simularity: 0.0, image: croppedFace, scene:  self.capturedImage)
@@ -142,10 +143,13 @@ class ResultViewController: UIViewController, UINavigationControllerDelegate, SF
         // Get coordinates for detected face in whole image
         faceInImage.boundingBox = ["height":detectedface.boundingBox?.height, "left":detectedface.boundingBox?.left, "top":detectedface.boundingBox?.top, "width":detectedface.boundingBox?.width] as? [String : CGFloat]
         
-        self.rekognitionObject?.searchFaces(byImage: imagerequest!) {
+        rekognitionObject?.searchFaces(byImage: imagerequest!) {
             (result, error) in
-            
-            if (result!.faceMatches!.count > 0) {
+            if error != nil {
+                print(error!)
+                return
+            }
+            if (result != nil && result!.faceMatches!.count > 0) {
                 print(String(format:"Total faces matched by Rekogition: %@",String(result!.faceMatches!.count)))
                 print ("Attempting to retrieve face information from DynamoDB")
                 
@@ -163,10 +167,6 @@ class ResultViewController: UIViewController, UINavigationControllerDelegate, SF
                     value?.s = face.face?.faceId
                     iteminput?.expressionAttributeValues = [":v1" : value!]
                     
-                    //let x = face.face?.externalImageId
-                    //print("HERE X: \(x)")
-                    
-                    self.dispatchGroup.enter()
                     self.dynamoDB?.query(iteminput!) {
                         (result, err) in
                         
@@ -243,7 +243,7 @@ class ResultViewController: UIViewController, UINavigationControllerDelegate, SF
     }
 
     func reloadList() {
-        self.faces.sort() { $0.simularity > $1.simularity }
+        faces.sort() { $0.simularity > $1.simularity }
         tableView.reloadData();
     }
     

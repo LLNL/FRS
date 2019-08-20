@@ -13,20 +13,24 @@ import AVFoundation
 class MainViewController: UIViewController, UIImagePickerControllerDelegate, UINavigationControllerDelegate, AVCapturePhotoCaptureDelegate {
     
     @IBOutlet weak var previewView: UIView!
-    @IBOutlet weak var btnRecognize: UIButton!
+    @IBOutlet weak var btnAdd: UIButton!
+    @IBOutlet weak var btnCelebrity: UIButton!
+    @IBOutlet weak var btnEmployee: UIButton!
+    @IBOutlet weak var btnAttribute: UIButton!
     
     var captureSession: AVCaptureSession!
     var capturedImage: AVCapturePhotoOutput!
     var image: UIImage!
+    var segue: String!
     var videoPreviewLayer: AVCaptureVideoPreviewLayer!
-
+    
     override func viewDidLoad() {
         super.viewDidLoad()
     }
     
     override func viewWillTransition(to size: CGSize, with coordinator: UIViewControllerTransitionCoordinator) {
         super.viewWillTransition(to: size, with: coordinator)
-        self.captureSession.stopRunning()
+        captureSession.stopRunning()
         setupSession()
     }
     
@@ -37,7 +41,7 @@ class MainViewController: UIViewController, UIImagePickerControllerDelegate, UIN
     
     override func viewWillDisappear(_ animated: Bool) {
         super.viewWillDisappear(animated)
-        self.captureSession.stopRunning()
+        captureSession.stopRunning()
     }
     
     override func didReceiveMemoryWarning() {
@@ -45,17 +49,50 @@ class MainViewController: UIViewController, UIImagePickerControllerDelegate, UIN
     }
     
     override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
-        let vc = segue.destination as! ResultViewController
-        vc.image = image
+        switch (segue.identifier) {
+        case "segueEmployee":
+            let vc = segue.destination as! EmployeeViewController
+            vc.image = image
+        case "segueAttribute":
+            let vc = segue.destination as! AttributeViewController
+            vc.image = image
+        case "segueCelebrity":
+            let vc = segue.destination as! CelebrityViewController
+            vc.image = image
+        case "segueAdd":
+            let vc = segue.destination as! AddViewController
+            vc.image = image
+        default:
+            print("ERROR: Invalid segue selection")
+        }
     }
     
-    @IBAction func onRecognizeClicked(_ sender: Any) {
+    @IBAction func onAddClicked(_ sender: Any) {
+        segue = "segueAdd"
+        capturePhoto()
+    }
+    
+    @IBAction func onAttributeClicked(_ sender: Any) {
+        segue = "segueAttribute"
+        capturePhoto()
+    }
+    
+    @IBAction func onCelebrityClicked(_ sender: Any) {
+        segue = "segueCelebrity"
+        capturePhoto()
+    }
+    
+    @IBAction func onEmployeeClicked(_ sender: Any) {
+        segue = "segueEmployee"
+        capturePhoto()
+    }
+    
+    func capturePhoto() {
         let settings = AVCapturePhotoSettings(format: [AVVideoCodecKey: AVVideoCodecType.jpeg])
         if (capturedImage != nil) {
             capturedImage.capturePhoto(with: settings, delegate: self)
-        } else {
-            // For simulator (no camera access) sent nil image
-            performSegue(withIdentifier: "segueDetails", sender: self)
+        } else { // Perform segue with no captured image
+            performSegue(withIdentifier: segue, sender: self)
         }
     }
     
@@ -76,7 +113,7 @@ class MainViewController: UIViewController, UIImagePickerControllerDelegate, UIN
         let uiimage = UIImage(data: imageData)
         let cgimage = CIImage(image: uiimage!)
         image = UIImage(cgImage: (cgimage?.cgImage)!, scale: 1.0, orientation: orientation)
-        performSegue(withIdentifier: "segueDetails", sender: self)
+        performSegue(withIdentifier: segue, sender: self)
     }
     
     //Setup camera session
