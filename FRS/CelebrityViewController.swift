@@ -16,27 +16,30 @@ class CelebrityViewController: UIViewController, UINavigationControllerDelegate,
     @IBOutlet weak var capturedImage: UIImageView!
     @IBOutlet weak var tableView: UITableView!
     
-    // Faces
-    var image: UIImage!
-    var faces: [Face] = []
-    
-    // Rekognition configuration
-    var rekognitionObject: AWSRekognition?
-    var rekogThreshold = 10              // Threshold for simularity match 0 - 100
-    var rekogMatches = 10               // Total matches to return by Rekognition
-    
     let activityIndicator = UIActivityIndicatorView(activityIndicatorStyle: UIActivityIndicatorView.Style.whiteLarge)
+    
+    var faces: [Face] = []
+    var image: UIImage!
+    var imageData: Data!
+    var orientation = 0
+    var rekognitionObject: AWSRekognition?
     
     override func viewDidLoad() {
         super.viewDidLoad()
         
         if image == nil {
             print ("ERROR! No image was received. Loading default image!")
-            image = #imageLiteral(resourceName: "bradpitt")
+            image = #imageLiteral(resourceName: "tomhanks")
         }
-        
         capturedImage.image = image
-        let faceImage:Data = UIImagePNGRepresentation(image)!
+        imageData = UIImagePNGRepresentation(image)!
+        
+        // App runs in portrait mode but image needs to be in landscape
+        orientation = image.imageOrientation.rawValue
+        if (orientation > 1) {
+            let newImage = UIImage(cgImage: image.cgImage!, scale: image.scale, orientation: .up)
+            image = newImage
+        }
         
         tableView.delegate = self
         tableView.dataSource = self
@@ -47,7 +50,7 @@ class CelebrityViewController: UIViewController, UINavigationControllerDelegate,
         tableView.addSubview(activityIndicator)
         activityIndicator.startAnimating()
         
-        sendImageToRekognition(originalImage: image, faceImageData: faceImage, handleRotation: true, lastorientation: UIDeviceOrientation.portrait)
+        detectFaces()
     }
 
     override func didReceiveMemoryWarning() {
@@ -62,10 +65,10 @@ class CelebrityViewController: UIViewController, UINavigationControllerDelegate,
         let cell = tableView.dequeueReusableCell(withIdentifier: "CelebrityTableCell") as! CelebrityTableCell
         let face = faces[indexPath.row]
         cell.setCell(face: face)
-        if(face.simularity < 50.0) {
+        if(face.simularity < 60.0) {
             cell.lblSimularity.textColor = UIColor.red
         }
-        else if(face.simularity >= 70.0) {
+        else if(face.simularity >= 85.0) {
             cell.lblSimularity.textColor = UIColor.green
         }
         else {
@@ -74,13 +77,11 @@ class CelebrityViewController: UIViewController, UINavigationControllerDelegate,
         return cell
     }
     
-    // Rekognition to process this image
-    func sendImageToRekognition(originalImage: UIImage, faceImageData: Data, handleRotation: Bool, lastorientation: UIDeviceOrientation) {
-        
+    func detectFaces() {
         rekognitionObject = AWSRekognition.default()
         let faceImageAWS = AWSRekognitionImage()
-        faceImageAWS?.bytes = faceImageData
-        let image = UIImage(data: faceImageData as Data)
+        faceImageAWS?.bytes = imageData
+        
         let detectfacesrequest = AWSRekognitionDetectFacesRequest()
         detectfacesrequest?.image = faceImageAWS
         
@@ -91,21 +92,8 @@ class CelebrityViewController: UIViewController, UINavigationControllerDelegate,
                 return
             }
             if (result!.faceDetails!.count > 0) { // Faces found! Process them
-                print(String(format:"Number of faces detected in image: %@",String(result!.faceDetails!.count)))
-                
-                // Faces found, iterate through each
-                for (_, face) in result!.faceDetails!.enumerated(){
-                    // If confident its face, then let Rekognition identify. This threshold set to an arbitrary number (50??)
-                    if(face.confidence!.intValue > 50) {
-                        let viewHeight = face.boundingBox?.height  as! CGFloat
-                        let viewWidth = face.boundingBox?.width as! CGFloat
-                        let toRect = CGRect(x: face.boundingBox?.left as! CGFloat, y: face.boundingBox?.top as! CGFloat, width: viewWidth, height:viewHeight)
-                        let croppedImage = self.cropImage(image!, toRect: toRect, viewWidth: viewWidth, viewHeight: viewHeight, handleRotation: handleRotation, lastorientation: lastorientation)
-                        
-                        // Resend to Recognition to identify
-                        self.rekognizeFace(faceImageData: UIImageJPEGRepresentation(image!, 0.2)!, detectedface: face, croppedFace: croppedImage!, handleRotation: handleRotation, lastorientation: lastorientation)
-                    }
-                }
+                print("Number of faces detected in image: \(result!.faceDetails!.count)")
+                self.rekognizeFace()
             }
             else {
                 print("No faces were detected in this image.")
@@ -121,18 +109,13 @@ class CelebrityViewController: UIViewController, UINavigationControllerDelegate,
         }
     }
     
-    // Run Rekognition to identify face
-    func rekognizeFace(faceImageData: Data, detectedface: AWSRekognitionFaceDetail, croppedFace: UIImage, handleRotation: Bool, lastorientation: UIDeviceOrientation) {
+    func rekognizeFace() {
         rekognitionObject = AWSRekognition.default()
         let faceImageAWS = AWSRekognitionImage()
-        faceImageAWS?.bytes = faceImageData
+        faceImageAWS?.bytes = imageData
+        
         let celebRequest = AWSRekognitionRecognizeCelebritiesRequest()
         celebRequest?.image = faceImageAWS
-        
-        let faceInImage = Face(name: "Unknown", simularity: 0.0, image: croppedFace, scene:  self.capturedImage)
-        
-        // Get coordinates for detected face in whole image
-        faceInImage.boundingBox = ["height":detectedface.boundingBox?.height, "left":detectedface.boundingBox?.left, "top":detectedface.boundingBox?.top, "width":detectedface.boundingBox?.width] as? [String : CGFloat]
         
         rekognitionObject?.recognizeCelebrities(celebRequest!){
             (result, error) in
@@ -141,15 +124,20 @@ class CelebrityViewController: UIViewController, UINavigationControllerDelegate,
                 return
             }
             if (result != nil && result!.celebrityFaces!.count > 0) {
-                print(String(format:"Total faces matched by celebrity Rekogition: %@",String(result!.celebrityFaces!.count)))
+                print("Total celebrities matched by Rekogition: \(result!.celebrityFaces!.count)")
                 
                 for (_, celebFace) in result!.celebrityFaces!.enumerated(){
-                    print("Celebrity Name: \(celebFace.name ?? "")")
+                    print ("\(celebFace.name ?? "") | \(celebFace.face!.confidence ?? 0)")
+                    
+                    let viewHeight = celebFace.face!.boundingBox?.height  as! CGFloat
+                    let viewWidth = celebFace.face!.boundingBox?.width as! CGFloat
+                    let toRect = CGRect(x: celebFace.face!.boundingBox?.left as! CGFloat, y: celebFace.face!.boundingBox?.top as! CGFloat, width: viewWidth, height:viewHeight)
+                    let croppedImage = self.cropImage(self.image!, toRect: toRect, viewWidth: viewWidth, viewHeight: viewHeight)
+                    let _: Data = UIImageJPEGRepresentation(croppedImage!, 1.0)!
                     
                     let workItem = DispatchWorkItem {
                         [weak self] in
-                        let match = Face(name: celebFace.name!
-                            , simularity: celebFace.matchConfidence!.floatValue, image: faceInImage.image, scene: self!.capturedImage)
+                        let match = Face(name: celebFace.name!, simularity: celebFace.face!.confidence as! Float, image: croppedImage!, scene:  self!.capturedImage)
                         self?.faces.append(match)
                         self?.reloadList()
                         self?.activityIndicator.stopAnimating()
@@ -161,6 +149,7 @@ class CelebrityViewController: UIViewController, UINavigationControllerDelegate,
                 print("Rekognition could not match any celebrity faces")
                 let workItem = DispatchWorkItem {
                     [weak self] in
+                    let faceInImage = Face(name: "Unknown", simularity: 0.0, image: (self?.capturedImage.image)!, scene:  self!.capturedImage)
                     self?.faces.append(faceInImage)
                     self?.reloadList()
                     self?.activityIndicator.stopAnimating()
@@ -170,36 +159,31 @@ class CelebrityViewController: UIViewController, UINavigationControllerDelegate,
         }
     }
     
-    //Crop image for individual faces found
-    func cropImage(_ inputImage: UIImage, toRect cropRect: CGRect, viewWidth: CGFloat, viewHeight: CGFloat, handleRotation: Bool, lastorientation: UIDeviceOrientation) -> UIImage? {
-        // Scale cropRect to handle images larger than shown-on-screen size
+    func cropImage(_ inputImage: UIImage, toRect cropRect: CGRect, viewWidth: CGFloat, viewHeight: CGFloat) -> UIImage? {
         let cropZone = CGRect(x:cropRect.origin.x * inputImage.size.width,
                               y:cropRect.origin.y * inputImage.size.height,
                               width:cropRect.size.width * inputImage.size.width,
                               height:cropRect.size.height * inputImage.size.height)
         
-        // Perform cropping in Core Graphics
         guard let cutImageRef: CGImage = inputImage.cgImage?.cropping(to:cropZone)
             else {
                 return nil
         }
         
-        // Return image to UIImage
-        if(handleRotation) {
-            var orientation = UIImageOrientation.up
-            if lastorientation == UIDeviceOrientation.landscapeLeft || (UIDevice.current.orientation == UIDeviceOrientation.faceUp && UIDevice.current.orientation.isLandscape) {
-                orientation = UIImageOrientation.up
-            } else if lastorientation == UIDeviceOrientation.landscapeRight {
-                orientation = UIImageOrientation.down
-            } else if lastorientation == UIDeviceOrientation.portrait || (UIDevice.current.orientation == UIDeviceOrientation.faceUp && UIDevice.current.orientation.isPortrait) {
-                orientation = UIImageOrientation.right
-            } else if lastorientation == UIDeviceOrientation.portraitUpsideDown {
-                orientation = UIImageOrientation.left
-            }
-            return UIImage(cgImage: cutImageRef, scale: 1.0, orientation: orientation)
-        } else {
-            return UIImage(cgImage: cutImageRef)
+        // Return cropped image in upside mode
+        var cropppedImage: UIImage
+        switch(orientation) {
+        case 0:
+            cropppedImage = UIImage(cgImage: cutImageRef, scale: 1.0, orientation: UIImageOrientation.up)
+        case 1:
+            cropppedImage = UIImage(cgImage: cutImageRef, scale: 1.0, orientation: UIImageOrientation.down)
+        case 2:
+            cropppedImage = UIImage(cgImage: cutImageRef, scale: 1.0, orientation: UIImageOrientation.left)
+        default:
+            cropppedImage = UIImage(cgImage: cutImageRef, scale: 1.0, orientation: UIImageOrientation.right)
+            break
         }
+        return cropppedImage
     }
     
     func reloadList() {

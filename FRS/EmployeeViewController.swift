@@ -16,19 +16,17 @@ class EmployeeViewController: UIViewController, UINavigationControllerDelegate, 
     @IBOutlet weak var tableView: UITableView!
     @IBOutlet weak var capturedImage: UIImageView!
     
-    // Faces
-    var image: UIImage!
+    let activityIndicator = UIActivityIndicatorView(activityIndicatorStyle: UIActivityIndicatorView.Style.whiteLarge)
+
+    var dynamoDB: AWSDynamoDB?
     var faces: [Face] = []
-    
-    // Rekognition configuration
+    var image: UIImage!
+    var imageData: Data!
+    var orientation = 0
     var rekognitionObject: AWSRekognition?
     var rekogCollectionId = "faces"     // Rekogntion Collection Id
-    var rekogThreshold = 60              // Threshold for simularity match 0 - 100
+    var rekogThreshold = 60             // Threshold for simularity match 0 - 100
     var rekogMatches = 10               // Total matches to return by Rekognition
-    
-    let activityIndicator = UIActivityIndicatorView(activityIndicatorStyle: UIActivityIndicatorView.Style.whiteLarge)
-    
-    var dynamoDB: AWSDynamoDB?
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -36,11 +34,16 @@ class EmployeeViewController: UIViewController, UINavigationControllerDelegate, 
         if image == nil {
             print ("ERROR! No image was received. Loading default image!")
             image = #imageLiteral(resourceName: "bezos")
-            //faces = mockFaces() // Debug only
         }
-        
         capturedImage.image = image
-        let faceImage:Data = UIImagePNGRepresentation(image)!
+        imageData = UIImagePNGRepresentation(image)!
+        
+        // App runs in portrait mode but image needs to be in landscape
+        orientation = image.imageOrientation.rawValue
+        if (orientation > 1) {
+            let newImage = UIImage(cgImage: image.cgImage!, scale: image.scale, orientation: .up)
+            image = newImage
+        }
         
         tableView.delegate = self
         tableView.dataSource = self
@@ -51,7 +54,7 @@ class EmployeeViewController: UIViewController, UINavigationControllerDelegate, 
         tableView.addSubview(activityIndicator)
         activityIndicator.startAnimating()
         
-        sendImageToRekognition(originalImage: image, faceImageData: faceImage, handleRotation: true, lastorientation: UIDeviceOrientation.portrait)
+        detectFaces()
     }
     
     override func didReceiveMemoryWarning() {
@@ -66,10 +69,10 @@ class EmployeeViewController: UIViewController, UINavigationControllerDelegate, 
         let cell = tableView.dequeueReusableCell(withIdentifier: "EmployeeTableCell") as! EmployeeTableCell
         let face = faces[indexPath.row]
         cell.setCell(face: face)
-        if(face.simularity < 70.0) {
+        if(face.simularity < 60.0) {
             cell.lblSimularity.textColor = UIColor.red
         }
-        else if(face.simularity >= 90.0) {
+        else if(face.simularity >= 85.0) {
             cell.lblSimularity.textColor = UIColor.green
         }
         else {
@@ -78,13 +81,11 @@ class EmployeeViewController: UIViewController, UINavigationControllerDelegate, 
         return cell
     }
     
-    // Rekognition to process this image
-    func sendImageToRekognition(originalImage: UIImage, faceImageData: Data, handleRotation: Bool, lastorientation: UIDeviceOrientation) {
-        
+    func detectFaces() {
         rekognitionObject = AWSRekognition.default()
         let faceImageAWS = AWSRekognitionImage()
-        faceImageAWS?.bytes = faceImageData
-        let image = UIImage(data: faceImageData as Data)
+        faceImageAWS?.bytes = imageData
+        
         let detectfacesrequest = AWSRekognitionDetectFacesRequest()
         detectfacesrequest?.image = faceImageAWS
         
@@ -95,20 +96,17 @@ class EmployeeViewController: UIViewController, UINavigationControllerDelegate, 
                 return
             }
             if (result!.faceDetails!.count > 0) { // Faces found! Process them
-                print(String(format:"Number of faces detected in image: %@",String(result!.faceDetails!.count)))
+                print("Number of faces detected in image: \(result!.faceDetails!.count)")
                 
-                // Faces found, iterate through each
                 for (_, face) in result!.faceDetails!.enumerated(){
-                    // If confident its face, then let Rekognition identify. This threshold set to an arbitrary number (50??)
-                    if(face.confidence!.intValue > 50) {
+                    if(face.confidence!.intValue > 50) { // if its really face
                         let viewHeight = face.boundingBox?.height  as! CGFloat
                         let viewWidth = face.boundingBox?.width as! CGFloat
                         let toRect = CGRect(x: face.boundingBox?.left as! CGFloat, y: face.boundingBox?.top as! CGFloat, width: viewWidth, height:viewHeight)
-                        let croppedImage = self.cropImage(image!, toRect: toRect, viewWidth: viewWidth, viewHeight: viewHeight, handleRotation: handleRotation, lastorientation: lastorientation)
-                        let croppedFace: Data = UIImageJPEGRepresentation(croppedImage!, 0.2)!
+                        let croppedImage = self.cropImage(self.image!, toRect: toRect, viewWidth: viewWidth, viewHeight: viewHeight)
+                        let croppedFace: Data = UIImageJPEGRepresentation(croppedImage!, 1.0)!
                         
-                        // Resend to Recognition to identify
-                        self.rekognizeFace(faceImageData: croppedFace, detectedface: face, croppedFace: croppedImage!, handleRotation: handleRotation, lastorientation: lastorientation)
+                        self.rekognizeFace(faceImageData: croppedFace, detectedface: face, croppedFace: croppedImage!)
                     }
                 }
             }
@@ -126,8 +124,7 @@ class EmployeeViewController: UIViewController, UINavigationControllerDelegate, 
         }
     }
     
-    // Run Rekognition to identify face
-    func rekognizeFace(faceImageData: Data, detectedface: AWSRekognitionFaceDetail, croppedFace: UIImage, handleRotation: Bool, lastorientation: UIDeviceOrientation) {
+    func rekognizeFace(faceImageData: Data, detectedface: AWSRekognitionFaceDetail, croppedFace: UIImage) {
         rekognitionObject = AWSRekognition.default()
         let faceImageAWS = AWSRekognitionImage()
         faceImageAWS?.bytes = faceImageData
@@ -140,7 +137,6 @@ class EmployeeViewController: UIViewController, UINavigationControllerDelegate, 
         
         let faceInImage = Face(name: "Unknown", simularity: 0.0, image: croppedFace, scene:  self.capturedImage)
         
-        // Get coordinates for detected face in whole image
         faceInImage.boundingBox = ["height":detectedface.boundingBox?.height, "left":detectedface.boundingBox?.left, "top":detectedface.boundingBox?.top, "width":detectedface.boundingBox?.width] as? [String : CGFloat]
         
         rekognitionObject?.searchFaces(byImage: imagerequest!) {
@@ -150,10 +146,9 @@ class EmployeeViewController: UIViewController, UINavigationControllerDelegate, 
                 return
             }
             if (result != nil && result!.faceMatches!.count > 0) {
-                print(String(format:"Total faces matched by Rekogition: %@",String(result!.faceMatches!.count)))
+                print("Total faces matched by Rekogition: \(result!.faceMatches!.count)")
                 print ("Attempting to retrieve face information from DynamoDB")
                 
-                // Faces were found. Lets iterate through all of them
                 for (_, face) in result!.faceMatches!.enumerated() {
                     faceInImage.simularity = face.similarity!.floatValue
                     
@@ -209,59 +204,35 @@ class EmployeeViewController: UIViewController, UINavigationControllerDelegate, 
         }
     }
     
-    
-    //Crop image for individual faces found
-    func cropImage(_ inputImage: UIImage, toRect cropRect: CGRect, viewWidth: CGFloat, viewHeight: CGFloat, handleRotation: Bool, lastorientation: UIDeviceOrientation) -> UIImage? {
-        // Scale cropRect to handle images larger than shown-on-screen size
+    func cropImage(_ inputImage: UIImage, toRect cropRect: CGRect, viewWidth: CGFloat, viewHeight: CGFloat) -> UIImage? {
         let cropZone = CGRect(x:cropRect.origin.x * inputImage.size.width,
                               y:cropRect.origin.y * inputImage.size.height,
                               width:cropRect.size.width * inputImage.size.width,
                               height:cropRect.size.height * inputImage.size.height)
-        
-        // Perform cropping in Core Graphics
+
         guard let cutImageRef: CGImage = inputImage.cgImage?.cropping(to:cropZone)
             else {
                 return nil
         }
         
-        // Return image to UIImage
-        if(handleRotation) {
-            var orientation = UIImageOrientation.up
-            if lastorientation == UIDeviceOrientation.landscapeLeft || (UIDevice.current.orientation == UIDeviceOrientation.faceUp && UIDevice.current.orientation.isLandscape) {
-                orientation = UIImageOrientation.up
-            } else if lastorientation == UIDeviceOrientation.landscapeRight {
-                orientation = UIImageOrientation.down
-            } else if lastorientation == UIDeviceOrientation.portrait || (UIDevice.current.orientation == UIDeviceOrientation.faceUp && UIDevice.current.orientation.isPortrait) {
-                orientation = UIImageOrientation.right
-            } else if lastorientation == UIDeviceOrientation.portraitUpsideDown {
-                orientation = UIImageOrientation.left
-            }
-            return UIImage(cgImage: cutImageRef, scale: 1.0, orientation: orientation)
-        } else {
-            return UIImage(cgImage: cutImageRef)
+        // Return cropped image in upside mode
+        var cropppedImage: UIImage
+        switch(orientation) {
+            case 0:
+                cropppedImage = UIImage(cgImage: cutImageRef, scale: 1.0, orientation: UIImageOrientation.up)
+            case 1:
+                cropppedImage = UIImage(cgImage: cutImageRef, scale: 1.0, orientation: UIImageOrientation.down)
+            case 2:
+                cropppedImage = UIImage(cgImage: cutImageRef, scale: 1.0, orientation: UIImageOrientation.left)
+            default:
+                cropppedImage = UIImage(cgImage: cutImageRef, scale: 1.0, orientation: UIImageOrientation.right)
+            break
         }
+        return cropppedImage
     }
 
     func reloadList() {
         faces.sort() { $0.simularity > $1.simularity }
         tableView.reloadData();
-    }
-    
-    func mockFaces() -> [Face] {
-        var faces: [Face] = []
-        
-        let face1 = Face(name: "Jeff Bezos", simularity: 99, image: #imageLiteral(resourceName: "bezos"), scene: capturedImage)
-        let face2 = Face(name: "Bill Gates", simularity: 90, image: #imageLiteral(resourceName: "billgates"), scene: capturedImage)
-        let face3 = Face(name: "Steve Jobs", simularity: 80, image: #imageLiteral(resourceName: "stevejobs"), scene: capturedImage)
-        let face4 = Face(name: "Mark Zuckerberg", simularity: 70, image: #imageLiteral(resourceName: "markzukerberg"), scene: capturedImage)
-        let face5 = Face(name: "Elon Musk", simularity: 60, image: #imageLiteral(resourceName: "elonmusk"), scene: capturedImage)
-        
-        faces.append(face1)
-        faces.append(face2)
-        faces.append(face3)
-        faces.append(face4)
-        faces.append(face5)
-        
-        return faces
     }
 }
