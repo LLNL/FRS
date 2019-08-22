@@ -8,6 +8,7 @@
 
 /* Begin PBXBuildFile section */
 		13807A7AA07BE537141AF1B3 /* Pods_FRS.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 256C12FE861EEB4E6A9739CF /* Pods_FRS.framework */; };
+		CC05C907230F097400699532 /* Attribute.swift in Sources */ = {isa = PBXBuildFile; fileRef = CC05C906230F097400699532 /* Attribute.swift */; };
 		CC40E8F82309E20100A40B2B /* CelebrityViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = CC40E8F72309E20100A40B2B /* CelebrityViewController.swift */; };
 		CC40E8FA2309E23100A40B2B /* AddViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = CC40E8F92309E23100A40B2B /* AddViewController.swift */; };
 		CC47A42522DB905300023DDA /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = CC47A42422DB905300023DDA /* AppDelegate.swift */; };
@@ -22,13 +23,14 @@
 		CCAFEF6B230093AC00BABAF0 /* EmployeeTableCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = CCAFEF6A230093AC00BABAF0 /* EmployeeTableCell.swift */; };
 		CCB70A2022FFA608004E83B2 /* secrets.txt in Sources */ = {isa = PBXBuildFile; fileRef = CCB70A1F22FFA608004E83B2 /* secrets.txt */; };
 		CCC5C1092308BD5B006DE73F /* AttibuteViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = CCC5C1082308BD5B006DE73F /* AttibuteViewController.swift */; };
-		CCC5C10B2308C26C006DE73F /* DetailsTableCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = CCC5C10A2308C26C006DE73F /* DetailsTableCell.swift */; };
+		CCC5C10B2308C26C006DE73F /* AttributeTableCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = CCC5C10A2308C26C006DE73F /* AttributeTableCell.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
 		02E3B57A783B3FCC905CEBBF /* Pods-FRS.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-FRS.debug.xcconfig"; path = "Target Support Files/Pods-FRS/Pods-FRS.debug.xcconfig"; sourceTree = "<group>"; };
 		256C12FE861EEB4E6A9739CF /* Pods_FRS.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_FRS.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		B1AFD8AD64F1F33867AFDCBD /* Pods-FRS.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-FRS.release.xcconfig"; path = "Target Support Files/Pods-FRS/Pods-FRS.release.xcconfig"; sourceTree = "<group>"; };
+		CC05C906230F097400699532 /* Attribute.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Attribute.swift; sourceTree = "<group>"; };
 		CC40E8F72309E20100A40B2B /* CelebrityViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CelebrityViewController.swift; sourceTree = "<group>"; };
 		CC40E8F92309E23100A40B2B /* AddViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AddViewController.swift; sourceTree = "<group>"; };
 		CC47A42122DB905300023DDA /* FRS.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = FRS.app; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -45,7 +47,7 @@
 		CCAFEF6A230093AC00BABAF0 /* EmployeeTableCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EmployeeTableCell.swift; sourceTree = "<group>"; };
 		CCB70A1F22FFA608004E83B2 /* secrets.txt */ = {isa = PBXFileReference; lastKnownFileType = text; path = secrets.txt; sourceTree = "<group>"; };
 		CCC5C1082308BD5B006DE73F /* AttibuteViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AttibuteViewController.swift; sourceTree = "<group>"; };
-		CCC5C10A2308C26C006DE73F /* DetailsTableCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DetailsTableCell.swift; sourceTree = "<group>"; };
+		CCC5C10A2308C26C006DE73F /* AttributeTableCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AttributeTableCell.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -95,14 +97,15 @@
 				CC47A42B22DB905400023DDA /* Assets.xcassets */,
 				CC47A43822DB939E00023DDA /* MainViewController.swift */,
 				CC40E8F92309E23100A40B2B /* AddViewController.swift */,
+				CCC5C1082308BD5B006DE73F /* AttibuteViewController.swift */,
+				CCC5C10A2308C26C006DE73F /* AttributeTableCell.swift */,
+				CC05C906230F097400699532 /* Attribute.swift */,
+				CC6AFA6822DBA7AC0044F687 /* Face.swift */,
 				CC40E8F72309E20100A40B2B /* CelebrityViewController.swift */,
 				CCA5DBDD230A76E600D1821B /* CelebrityTableCell.swift */,
 				CC47A43A22DB93FA00023DDA /* EmployeeViewController.swift */,
 				CCAFEF6A230093AC00BABAF0 /* EmployeeTableCell.swift */,
-				CCC5C1082308BD5B006DE73F /* AttibuteViewController.swift */,
 				CC47A43C22DB940C00023DDA /* SettingsViewController.swift */,
-				CCC5C10A2308C26C006DE73F /* DetailsTableCell.swift */,
-				CC6AFA6822DBA7AC0044F687 /* Face.swift */,
 				CC47A43022DB905400023DDA /* Info.plist */,
 				CCB70A1F22FFA608004E83B2 /* secrets.txt */,
 			);
@@ -251,7 +254,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				CCC5C10B2308C26C006DE73F /* DetailsTableCell.swift in Sources */,
+				CCC5C10B2308C26C006DE73F /* AttributeTableCell.swift in Sources */,
 				CC47A43922DB939E00023DDA /* MainViewController.swift in Sources */,
 				CCB70A2022FFA608004E83B2 /* secrets.txt in Sources */,
 				CC40E8FA2309E23100A40B2B /* AddViewController.swift in Sources */,
@@ -262,6 +265,7 @@
 				CC47A43D22DB940C00023DDA /* SettingsViewController.swift in Sources */,
 				CC6AFA6922DBA7AC0044F687 /* Face.swift in Sources */,
 				CCA5DBDE230A76E600D1821B /* CelebrityTableCell.swift in Sources */,
+				CC05C907230F097400699532 /* Attribute.swift in Sources */,
 				CC47A43B22DB93FA00023DDA /* EmployeeViewController.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
