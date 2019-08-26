@@ -12,6 +12,8 @@ PODS:
     - AWSCore (= 2.9.10)
   - AWSRekognition (2.9.10):
     - AWSCore (= 2.9.10)
+  - AWSS3 (2.9.10):
+    - AWSCore (= 2.9.10)
 
 DEPENDENCIES:
   - AWSCognito
@@ -19,6 +21,7 @@ DEPENDENCIES:
   - AWSDynamoDB
   - AWSIoT
   - AWSRekognition
+  - AWSS3
 
 SPEC REPOS:
   https://github.com/cocoapods/specs.git:
@@ -29,6 +32,7 @@ SPEC REPOS:
     - AWSDynamoDB
     - AWSIoT
     - AWSRekognition
+    - AWSS3
 
 SPEC CHECKSUMS:
   AWSCognito: 1dd5b0e1d9e0706f9757ccce7c6fad9dc1d25ddb
@@ -38,7 +42,8 @@ SPEC CHECKSUMS:
   AWSDynamoDB: 87d0b2f44fc85f719921ad2df0dcc4c31c9be96a
   AWSIoT: c3025e194f45d00070ef074df53aa87cc53fb2a6
   AWSRekognition: f02321aec5cf2c004508c9dcdc80e28a4fec575f
+  AWSS3: fe0221519fe4d05adf4c3fdf0cb4477f5e433ee6
 
-PODFILE CHECKSUM: e45de94ac46a206046463681e35d7ecf32b33130
+PODFILE CHECKSUM: 768eaa5957e3c857e4b0abcd108db0ab7f4ea6f1
 
 COCOAPODS: 1.6.2

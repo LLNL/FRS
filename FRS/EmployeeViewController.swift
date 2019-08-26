@@ -22,7 +22,6 @@ class EmployeeViewController: UIViewController, UINavigationControllerDelegate, 
     var faces: [Face] = []
     var image: UIImage!
     var imageData: Data!
-    var orientation = 0
     var rekognitionObject: AWSRekognition?
     var rekogCollectionId = "faces"     // Rekogntion Collection Id
     var rekogThreshold = 60             // Threshold for simularity match 0 - 100
@@ -36,14 +35,8 @@ class EmployeeViewController: UIViewController, UINavigationControllerDelegate, 
             image = #imageLiteral(resourceName: "bezos")
         }
         capturedImage.image = image
+        image = image.makePortrait()
         imageData = UIImagePNGRepresentation(image)!
-        
-        // App runs in portrait mode but image needs to be in landscape
-        orientation = image.imageOrientation.rawValue
-        if (orientation > 1) {
-            let newImage = UIImage(cgImage: image.cgImage!, scale: image.scale, orientation: .up)
-            image = newImage
-        }
         
         tableView.delegate = self
         tableView.dataSource = self
@@ -209,26 +202,13 @@ class EmployeeViewController: UIViewController, UINavigationControllerDelegate, 
                               y:cropRect.origin.y * inputImage.size.height,
                               width:cropRect.size.width * inputImage.size.width,
                               height:cropRect.size.height * inputImage.size.height)
-
+        
         guard let cutImageRef: CGImage = inputImage.cgImage?.cropping(to:cropZone)
             else {
                 return nil
         }
         
-        // Return cropped image in upside mode
-        var cropppedImage: UIImage
-        switch(orientation) {
-            case 0:
-                cropppedImage = UIImage(cgImage: cutImageRef, scale: 1.0, orientation: UIImageOrientation.up)
-            case 1:
-                cropppedImage = UIImage(cgImage: cutImageRef, scale: 1.0, orientation: UIImageOrientation.down)
-            case 2:
-                cropppedImage = UIImage(cgImage: cutImageRef, scale: 1.0, orientation: UIImageOrientation.left)
-            default:
-                cropppedImage = UIImage(cgImage: cutImageRef, scale: 1.0, orientation: UIImageOrientation.right)
-            break
-        }
-        return cropppedImage
+        return UIImage(cgImage: cutImageRef)
     }
 
     func reloadList() {

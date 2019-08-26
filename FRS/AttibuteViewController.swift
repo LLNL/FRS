@@ -34,13 +34,6 @@ class AttributeViewController: UIViewController, UITableViewDataSource, UITableV
         capturedImage.image = image
         imageData = UIImagePNGRepresentation(image)!
         
-        // App runs in portrait mode but image needs to be in landscape
-        orientation = image.imageOrientation.rawValue
-        if (orientation > 1) {
-            let newImage = UIImage(cgImage: image.cgImage!, scale: image.scale, orientation: .up)
-            image = newImage
-        }
-        
         tableView.delegate = self
         tableView.dataSource = self
         tableView.register(UITableViewCell.self, forCellReuseIdentifier: "cell")

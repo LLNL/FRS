@@ -9,6 +9,7 @@
 /* Begin PBXBuildFile section */
 		13807A7AA07BE537141AF1B3 /* Pods_FRS.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 256C12FE861EEB4E6A9739CF /* Pods_FRS.framework */; };
 		CC05C907230F097400699532 /* Attribute.swift in Sources */ = {isa = PBXBuildFile; fileRef = CC05C906230F097400699532 /* Attribute.swift */; };
+		CC2B86E2231367B900EFE83E /* UIImage.swift in Sources */ = {isa = PBXBuildFile; fileRef = CC2B86E1231367B900EFE83E /* UIImage.swift */; };
 		CC40E8F82309E20100A40B2B /* CelebrityViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = CC40E8F72309E20100A40B2B /* CelebrityViewController.swift */; };
 		CC40E8FA2309E23100A40B2B /* AddViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = CC40E8F92309E23100A40B2B /* AddViewController.swift */; };
 		CC47A42522DB905300023DDA /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = CC47A42422DB905300023DDA /* AppDelegate.swift */; };
@@ -31,6 +32,7 @@
 		256C12FE861EEB4E6A9739CF /* Pods_FRS.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_FRS.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		B1AFD8AD64F1F33867AFDCBD /* Pods-FRS.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-FRS.release.xcconfig"; path = "Target Support Files/Pods-FRS/Pods-FRS.release.xcconfig"; sourceTree = "<group>"; };
 		CC05C906230F097400699532 /* Attribute.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Attribute.swift; sourceTree = "<group>"; };
+		CC2B86E1231367B900EFE83E /* UIImage.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UIImage.swift; sourceTree = "<group>"; };
 		CC40E8F72309E20100A40B2B /* CelebrityViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CelebrityViewController.swift; sourceTree = "<group>"; };
 		CC40E8F92309E23100A40B2B /* AddViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AddViewController.swift; sourceTree = "<group>"; };
 		CC47A42122DB905300023DDA /* FRS.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = FRS.app; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -100,12 +102,13 @@
 				CCC5C1082308BD5B006DE73F /* AttibuteViewController.swift */,
 				CCC5C10A2308C26C006DE73F /* AttributeTableCell.swift */,
 				CC05C906230F097400699532 /* Attribute.swift */,
-				CC6AFA6822DBA7AC0044F687 /* Face.swift */,
 				CC40E8F72309E20100A40B2B /* CelebrityViewController.swift */,
 				CCA5DBDD230A76E600D1821B /* CelebrityTableCell.swift */,
 				CC47A43A22DB93FA00023DDA /* EmployeeViewController.swift */,
 				CCAFEF6A230093AC00BABAF0 /* EmployeeTableCell.swift */,
 				CC47A43C22DB940C00023DDA /* SettingsViewController.swift */,
+				CC6AFA6822DBA7AC0044F687 /* Face.swift */,
+				CC2B86E1231367B900EFE83E /* UIImage.swift */,
 				CC47A43022DB905400023DDA /* Info.plist */,
 				CCB70A1F22FFA608004E83B2 /* secrets.txt */,
 			);
@@ -207,6 +210,7 @@
 				"${BUILT_PRODUCTS_DIR}/AWSDynamoDB/AWSDynamoDB.framework",
 				"${BUILT_PRODUCTS_DIR}/AWSIoT/AWSIoT.framework",
 				"${BUILT_PRODUCTS_DIR}/AWSRekognition/AWSRekognition.framework",
+				"${BUILT_PRODUCTS_DIR}/AWSS3/AWSS3.framework",
 			);
 			name = "[CP] Embed Pods Frameworks";
 			outputFileListPaths = (
@@ -219,6 +223,7 @@
 				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/AWSDynamoDB.framework",
 				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/AWSIoT.framework",
 				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/AWSRekognition.framework",
+				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/AWSS3.framework",
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 			shellPath = /bin/sh;
@@ -267,6 +272,7 @@
 				CCA5DBDE230A76E600D1821B /* CelebrityTableCell.swift in Sources */,
 				CC05C907230F097400699532 /* Attribute.swift in Sources */,
 				CC47A43B22DB93FA00023DDA /* EmployeeViewController.swift in Sources */,
+				CC2B86E2231367B900EFE83E /* UIImage.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

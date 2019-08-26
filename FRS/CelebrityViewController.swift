@@ -21,7 +21,6 @@ class CelebrityViewController: UIViewController, UINavigationControllerDelegate,
     var faces: [Face] = []
     var image: UIImage!
     var imageData: Data!
-    var orientation = 0
     var rekognitionObject: AWSRekognition?
     
     override func viewDidLoad() {
@@ -29,18 +28,12 @@ class CelebrityViewController: UIViewController, UINavigationControllerDelegate,
         
         if image == nil {
             print ("ERROR! No image was received. Loading default image!")
-            image = #imageLiteral(resourceName: "tomhanks")
+            image = #imageLiteral(resourceName: "bradpitt")
         }
         capturedImage.image = image
+        image = image.makePortrait()
         imageData = UIImagePNGRepresentation(image)!
-        
-        // App runs in portrait mode but image needs to be in landscape
-        orientation = image.imageOrientation.rawValue
-        if (orientation > 1) {
-            let newImage = UIImage(cgImage: image.cgImage!, scale: image.scale, orientation: .up)
-            image = newImage
-        }
-        
+
         tableView.delegate = self
         tableView.dataSource = self
         tableView.register(UITableViewCell.self, forCellReuseIdentifier: "cell")
@@ -170,20 +163,7 @@ class CelebrityViewController: UIViewController, UINavigationControllerDelegate,
                 return nil
         }
         
-        // Return cropped image in upside mode
-        var cropppedImage: UIImage
-        switch(orientation) {
-        case 0:
-            cropppedImage = UIImage(cgImage: cutImageRef, scale: 1.0, orientation: UIImageOrientation.up)
-        case 1:
-            cropppedImage = UIImage(cgImage: cutImageRef, scale: 1.0, orientation: UIImageOrientation.down)
-        case 2:
-            cropppedImage = UIImage(cgImage: cutImageRef, scale: 1.0, orientation: UIImageOrientation.left)
-        default:
-            cropppedImage = UIImage(cgImage: cutImageRef, scale: 1.0, orientation: UIImageOrientation.right)
-            break
-        }
-        return cropppedImage
+        return UIImage(cgImage: cutImageRef)
     }
     
     func reloadList() {

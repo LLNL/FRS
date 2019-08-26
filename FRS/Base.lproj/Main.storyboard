@@ -353,13 +353,13 @@
                             <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="Wxx-U6-IUc" userLabel="BottomView">
                                 <rect key="frame" x="8" y="446" width="398" height="406"/>
                                 <subviews>
-                                    <textField opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" borderStyle="roundedRect" textAlignment="natural" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="pwk-rb-jY1" userLabel="tbName">
+                                    <textField opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" borderStyle="roundedRect" textAlignment="center" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="pwk-rb-jY1" userLabel="tbName">
                                         <rect key="frame" x="10" y="92" width="378" height="50"/>
                                         <constraints>
                                             <constraint firstAttribute="height" constant="50" id="2xd-Am-7jd"/>
                                         </constraints>
                                         <nil key="textColor"/>
-                                        <fontDescription key="fontDescription" type="system" pointSize="14"/>
+                                        <fontDescription key="fontDescription" type="system" pointSize="24"/>
                                         <textInputTraits key="textInputTraits"/>
                                     </textField>
                                     <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Enter Full Name" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="1LP-jd-Bx1" userLabel="lblDescription">
@@ -372,6 +372,9 @@
                                         <rect key="frame" x="178" y="177" width="57" height="43"/>
                                         <fontDescription key="fontDescription" name="AvenirNext-Bold" family="Avenir Next" pointSize="22"/>
                                         <state key="normal" title="SAVE"/>
+                                        <connections>
+                                            <action selector="onClickSave:" destination="hir-pL-3lj" eventType="touchUpInside" id="tIp-3m-WvR"/>
+                                        </connections>
                                     </button>
                                 </subviews>
                                 <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
@@ -402,6 +405,7 @@
                     <connections>
                         <outlet property="btnSave" destination="hlD-kM-TBB" id="kP7-l0-NHW"/>
                         <outlet property="capturedImage" destination="6jO-NS-X5N" id="FFe-LS-0a4"/>
+                        <outlet property="lblDescription" destination="1LP-jd-Bx1" id="MXl-1b-J8i"/>
                         <outlet property="tbName" destination="pwk-rb-jY1" id="bRl-fH-eYo"/>
                     </connections>
                 </viewController>

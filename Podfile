@@ -13,5 +13,6 @@ target 'FRS' do
   pod 'AWSCognitoIdentityProvider'
   pod 'AWSDynamoDB'
   pod 'AWSIoT'
+  pod 'AWSS3'
   
 end
