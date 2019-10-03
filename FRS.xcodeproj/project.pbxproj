@@ -10,6 +10,7 @@
 		13807A7AA07BE537141AF1B3 /* Pods_FRS.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 256C12FE861EEB4E6A9739CF /* Pods_FRS.framework */; };
 		CC05C907230F097400699532 /* Attribute.swift in Sources */ = {isa = PBXBuildFile; fileRef = CC05C906230F097400699532 /* Attribute.swift */; };
 		CC2B86E2231367B900EFE83E /* UIImage.swift in Sources */ = {isa = PBXBuildFile; fileRef = CC2B86E1231367B900EFE83E /* UIImage.swift */; };
+		CC3CA79E23164555000E69AE /* lambda.py in Resources */ = {isa = PBXBuildFile; fileRef = CC3CA79D23164555000E69AE /* lambda.py */; };
 		CC40E8F82309E20100A40B2B /* CelebrityViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = CC40E8F72309E20100A40B2B /* CelebrityViewController.swift */; };
 		CC40E8FA2309E23100A40B2B /* AddViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = CC40E8F92309E23100A40B2B /* AddViewController.swift */; };
 		CC47A42522DB905300023DDA /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = CC47A42422DB905300023DDA /* AppDelegate.swift */; };
@@ -33,6 +34,7 @@
 		B1AFD8AD64F1F33867AFDCBD /* Pods-FRS.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-FRS.release.xcconfig"; path = "Target Support Files/Pods-FRS/Pods-FRS.release.xcconfig"; sourceTree = "<group>"; };
 		CC05C906230F097400699532 /* Attribute.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Attribute.swift; sourceTree = "<group>"; };
 		CC2B86E1231367B900EFE83E /* UIImage.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UIImage.swift; sourceTree = "<group>"; };
+		CC3CA79D23164555000E69AE /* lambda.py */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.script.python; path = lambda.py; sourceTree = "<group>"; };
 		CC40E8F72309E20100A40B2B /* CelebrityViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CelebrityViewController.swift; sourceTree = "<group>"; };
 		CC40E8F92309E23100A40B2B /* AddViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AddViewController.swift; sourceTree = "<group>"; };
 		CC47A42122DB905300023DDA /* FRS.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = FRS.app; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -109,6 +111,7 @@
 				CC47A43C22DB940C00023DDA /* SettingsViewController.swift */,
 				CC6AFA6822DBA7AC0044F687 /* Face.swift */,
 				CC2B86E1231367B900EFE83E /* UIImage.swift */,
+				CC3CA79D23164555000E69AE /* lambda.py */,
 				CC47A43022DB905400023DDA /* Info.plist */,
 				CCB70A1F22FFA608004E83B2 /* secrets.txt */,
 			);
@@ -186,6 +189,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				CC47A42F22DB905400023DDA /* LaunchScreen.storyboard in Resources */,
+				CC3CA79E23164555000E69AE /* lambda.py in Resources */,
 				CC47A42C22DB905400023DDA /* Assets.xcassets in Resources */,
 				CC47A42A22DB905300023DDA /* Main.storyboard in Resources */,
 			);

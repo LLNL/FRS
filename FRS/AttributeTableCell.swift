@@ -17,6 +17,6 @@ class AttributeTableCell: UITableViewCell {
     func setCell(attribute: Attribute) {
         self.lblName.text = attribute.name
         self.lblValue.text = attribute.value
-        self.lblConfidence.text = "\(Int(roundf(attribute.confidence)))%"
+        self.lblConfidence.text = "\(Int(floor(attribute.confidence)))%"
     }
 }

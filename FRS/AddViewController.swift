@@ -18,7 +18,7 @@ class AddViewController: UIViewController, UITextFieldDelegate {
     @IBOutlet weak var tbName: UITextField!
     @IBOutlet weak var lblDescription: UILabel!
     
-    let S3BucketName = "bucketName"
+    let S3BucketName = "llnl-sapo-frs"
     var image: UIImage!
     var imageData: Data!
     var rekognitionObject: AWSRekognition?
@@ -37,7 +37,7 @@ class AddViewController: UIViewController, UITextFieldDelegate {
 
         if image == nil {
             print ("ERROR! No image was received. Loading default image!")
-            image = #imageLiteral(resourceName: "markzukerberg")
+            image = #imageLiteral(resourceName: "susanwojcicki")
         }
         capturedImage.image = image
         image = image.makePortrait()
@@ -123,7 +123,7 @@ class AddViewController: UIViewController, UITextFieldDelegate {
             return
         }
         
-        let filename = tbName.text!.trimmingCharacters(in: .whitespacesAndNewlines)
+        let filename = tbName.text!.replacingOccurrences(of: " ", with: "_") + ".png"
         let expression = AWSS3TransferUtilityUploadExpression()
         let transferUtility = AWSS3TransferUtility.default()
         
